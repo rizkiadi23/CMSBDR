@@ -1,0 +1,6 @@
+# Ignore some files to commit
+
+*.htaccess			# ignoring .htaccess file
+
+/well-known/
+/nbproject/
