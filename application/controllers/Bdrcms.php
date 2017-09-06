@@ -1,80 +1,81 @@
 <?php
+
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Bdrcms extends CI_Controller {
 
-	public function index($page = 'dashboard')
-	{
-		// Validasi User Login
-		if (!$this->session->userdata('logged_in')) {
-			redirect('users/login');
-		}
-		
-		$data['title'] = ucfirst($page);
-		$data['variables']  = $this->backend_model->get_list();
+    public function index($page = 'dashboard') {
+        // Validasi User Login
+        if (!$this->session->userdata('logged_in')) {
+            redirect('users/login');
+        }
 
-		if($page == 'user') {
+        $data['title'] = ucfirst($page);
+        $data['variables'] = $this->backend_model->get_list();
 
-			$username 	= $this->session->userdata('username');
+        if ($page == 'user') {
 
-			$data['single_var'] = $this->backend_model->get_single_list($page);
-			$data['userdata'] 	= $this->backend_model->get_user_data($username);
+            $username = $this->session->userdata('username');
 
-			$this->load->view('Admin/Templates/header', $data);
-			$this->load->view('Admin/Pages/content', $data);
-			$this->load->view('Admin/Templates/footer');
-		} elseif ($page == 'pages') {
+            $data['single_var'] = $this->backend_model->get_single_list($page);
+            $data['userdata'] = $this->backend_model->get_user_data($username);
 
-			$data['single_var'] = $this->backend_model->get_single_list($page);
-			$data['pagedata'] 	= $this->backend_model->get_page_data();
-			
-			$this->load->view('Admin/Templates/header', $data);
-			$this->load->view('Admin/Pages/content', $data);
-			$this->load->view('Admin/Templates/footer');
-		} else {
-			$data['single_var'] = $this->backend_model->get_single_list($page);
+            $this->load->view('Admin/Templates/header', $data);
+            $this->load->view('Admin/Pages/content', $data);
+            $this->load->view('Admin/Templates/footer');
+        } elseif ($page == 'pages') {
 
-			$this->load->view('Admin/Templates/header', $data);
-			$this->load->view('Admin/Pages/content', $data);
-			$this->load->view('Admin/Templates/footer');
-		}
-	}
+            $data['single_var'] = $this->backend_model->get_single_list($page);
+            $data['pagedata'] = $this->backend_model->get_page_data();
 
-	// CRUD Reusable Functions : Jika memungkinkan semua CRUD functionality akan dihandle pada bagian dibawah
-	public function create() {
+            $this->load->view('Admin/Templates/header', $data);
+            $this->load->view('Admin/Pages/content', $data);
+            $this->load->view('Admin/Templates/footer');
+        } else {
+            $data['single_var'] = $this->backend_model->get_single_list($page);
 
-		// Validasi User Login
-		if (!$this->session->userdata('logged_in')) {
-			redirect('users/login');
-		}
+            $this->load->view('Admin/Templates/header', $data);
+            $this->load->view('Admin/Pages/content', $data);
+            $this->load->view('Admin/Templates/footer');
+        }
+    }
 
-		$data['title'] = 'Create Page';
-		$data['variables'] = $this->backend_model->get_list();
+    // CRUD Reusable Functions : Jika memungkinkan semua CRUD functionality akan dihandle pada bagian dibawah
+    public function create() {
 
-		$this->load->view('Admin/Templates/header', $data);
-		$this->load->view('Admin/Pages/content', $data);
-		$this->load->view('Admin/Templates/footer');
-	}
+        // Validasi User Login
+        if (!$this->session->userdata('logged_in')) {
+            redirect('users/login');
+        }
 
-	public function edit($id) {
+        $data['title'] = 'Create Page';
+        $data['variables'] = $this->backend_model->get_list();
 
-		// Validasi User Login
-		if (!$this->session->userdata('logged_in')) {
-			redirect('users/login');
-		}
+        $this->load->view('Admin/Templates/header', $data);
+        $this->load->view('Admin/Pages/content', $data);
+        $this->load->view('Admin/Templates/footer');
+    }
 
-		$data['id'] = $id;
-		$this->load->view('Admin/Pages/test', $data);
-	}
+    public function edit($id) {
 
-	public function delete($id) {
+        // Validasi User Login
+        if (!$this->session->userdata('logged_in')) {
+            redirect('users/login');
+        }
 
-		// Validasi User Login
-		if (!$this->session->userdata('logged_in')) {
-			redirect('users/login');
-		}
+        $data['id'] = $id;
+        $this->load->view('Admin/Pages/test', $data);
+    }
 
-		$data['id'] = $id;
-		$this->load->view('Admin/Pages/test', $data);
-	}
+    public function delete($id) {
+
+        // Validasi User Login
+        if (!$this->session->userdata('logged_in')) {
+            redirect('users/login');
+        }
+
+        $data['id'] = $id;
+        $this->load->view('Admin/Pages/test', $data);
+    }
+
 }

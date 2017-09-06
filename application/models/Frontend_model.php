@@ -1,13 +1,15 @@
 <?php
-	class Frontend_model extends CI_Model {
 
-		public function __construct() {
-			$this->load->database();
-		}
+class Frontend_model extends CI_Model {
 
-		public function get($page) {
+    public function __construct() {
+        $this->load->database();
+    }
 
-			$query = $this->db->get_where('bdr_fe_pages', array('title' => $page));
-			return $query->result_array();
-		}
-	}
+    public function get($page) {
+
+        $query = $this->db->get_where('bdr_fe_pages', array('title' => $page));
+        return $query->result_array();
+    }
+
+}
