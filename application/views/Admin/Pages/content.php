@@ -1,4 +1,3 @@
-
 <div class="wrapper">
     <div class="sidebar" data-background-color="white" data-active-color="danger">
 
@@ -187,28 +186,26 @@
                     </div>
                 <?php endif; ?>
 
-
-
-                <?php if (isset($single_var) && $single_var[0]['title'] != 'user'): ?>
+                <?php if (isset($single_var) && $single_var[0]['title'] != 'user' && $title != 'Create'): ?>
                     <div class="row">
 
                         <!-- Only Appears if the page management is selected -->
-                        <?php if ($single_var[0]['title'] == 'pages'): ?>  
+                        <?php if ($single_var[0]['title'] == 'pages' || $single_var[0]['title'] == 'category'): ?>  
                             <div class="col-md-12">
                                 <div class="card">
                                     <div class="header">
                                         <div class="row">
                                             <div class="col-md-10"><h4 class="title"><?php echo strtoupper($single_var[0]['title']); ?> MODULE</h4></div>
-                                            <div class="col-md-2"><center><a href="pages/create" class="btn btn-danger">CREATE</a></center></div>
+                                            <div class="col-md-2"><center><a href="<?php echo $single_var[0]['title']; ?>/create" class="btn btn-danger">CREATE</a></center></div>
                                         </div>		                           
                                         <p class="category"><?php echo $single_var[0]['content']; ?></p>
                                     </div>
+
                                     <div class="content table-responsive table-full-width">
                                         <table class="table table-striped">
                                             <thead>
                                                 <tr>
-                                                    <th><center>Parent ID</center></th>
-                                            <th><center>Child ID</center></th>
+                                                    <th><center>Category ID</center></th>
                                             <th><center>Title</center></th>
                                             <th><center>Content</center></th>
                                             <th><center>Created At</center></th>
@@ -219,14 +216,13 @@
                                                 <?php foreach ($pagedata as $datapage): ?>
                                                     <tr>
                                                         <td><?php echo $datapage['parent_id']; ?></td>
-                                                        <td><?php echo $datapage['child_id']; ?></td>
                                                         <td><?php echo $datapage['title']; ?></td>
                                                         <td><?php echo $datapage['content']; ?></td>
                                                         <td><?php echo $datapage['created_at']; ?></td>
                                                         <td>
-                                                            <a href="pages/edit/<?php echo $datapage['parent_id']; ?>"><i class="ti-pencil"></i></a>
+                                                            <a href="<?php echo base_url(); ?>bdrcms/category/edit/<?php echo $datapage['parent_id']; ?>"><i class="ti-pencil"></i></a>
                                                             &nbsp; &nbsp;
-                                                            <a href="pages/delete/<?php echo $datapage['parent_id']; ?>"><i class="ti-trash"></i></a>
+                                                            <a href="<?php echo base_url(); ?>category/delete/<?php echo $datapage['parent_id']; ?>"><i class="ti-trash"></i></a>
                                                         </td>
                                                     </tr>
                                                 <?php endforeach; ?>
@@ -239,8 +235,19 @@
                         <?php else: ?>
                             <div class="col-md-12">
                                 <div class="card">
-                                    <div class="header">
-                                        <h4 class="title"><?php echo strtoupper($single_var[0]['title']); ?> MODULE</h4>
+                                    <div class="header"> 
+                                        <div class="row">
+                                            <div class="col-md-10"><h4 class="title"><?php echo strtoupper($single_var[0]['title']); ?> MODULE</h4></div>
+                                            <?php if ($single_var[0]['title'] == 'category'): ?>
+                                                <div class="col-md-2"><center><a href="category/create" class="btn btn-danger">CREATE</a></center></div>
+                                            <?php endif; ?>
+                                            <?php if ($single_var[0]['title'] == 'articles'): ?>
+                                                <div class="col-md-2"><center><a href="articles/create" class="btn btn-danger">CREATE</a></center></div>
+                                            <?php endif; ?>
+                                            <?php if ($single_var[0]['title'] == 'goods'): ?>
+                                                <div class="col-md-2"><center><a href="goods/create" class="btn btn-danger">CREATE</a></center></div>
+                                            <?php endif; ?>
+                                        </div>
                                         <br>
                                         <p><?php echo $single_var[0]['content']; ?></p>
                                     </div>
@@ -365,6 +372,96 @@
                         </div>
                     </div>
                     <!-- End of User Special Page -->
+                <?php endif; ?>
+
+                <!-- Field Create & Update Page Details Management -->
+                <?php if ($title == "Create") : ?>
+                    <div class="content">
+                        <div class="container-fluid">
+                            <div class="row">
+                                <div class="col-lg-12 col-md-12">
+                                    <div class="card">
+                                        <div class="header">
+                                            <h4 class="title">Create New <?php echo $detail_data_page[0]['title']; ?></h4>
+                                            <small><?php echo $detail_data_page[0]['content']; ?></small>
+                                        </div>
+                                        <div class="content">
+                                            <form action="<?php echo base_url() . $processToController ?>/create" method="post">
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <div class="form-group">
+                                                            <label><?php echo strtoupper($detail_data_page[0]['title'] . " title"); ?></label>
+                                                            <input type="text" name="title" class="form-control border-input" placeholder="Enter The Title">
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <div class="form-group">
+                                                            <label><?php echo strtoupper($detail_data_page[0]['title'] . " content"); ?></label>
+                                                            <textarea rows="5" name="content" class="form-control border-input" placeholder="Enter Your Content"></textarea>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                    
+                                                <div class="text-center">
+                                                    <input type="hidden" name="slug" value="this-is-slug">
+                                                    <button type="submit" class="btn btn-info btn-fill btn-wd">Create New Page</button>
+                                                </div>
+                                                <div class="clearfix"></div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                <?php endif; ?>
+                
+                 <?php if ($title == "Edit") : ?>
+                    <div class="content">
+                        <div class="container-fluid">
+                            <div class="row">
+                                <div class="col-lg-12 col-md-12">
+                                    <div class="card">
+                                        <div class="header">
+                                            <h4 class="title">Create New <?php echo $detail_data_page[0]['title']; ?></h4>
+                                            <small><?php echo $detail_data_page[0]['content']; ?></small>
+                                        </div>
+                                        <div class="content">
+                                            <form action="<?php echo base_url() . $processToController ?>/update" method="post">
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <div class="form-group">
+                                                            <label><?php echo strtoupper($detail_data_page[0]['title'] . " title"); ?></label>
+                                                            <input type="text" name="title" value="<?php echo $get_category_var['title']; ?>" class="form-control border-input" placeholder="Enter The Title">
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <div class="form-group">
+                                                            <label><?php echo strtoupper($detail_data_page[0]['title'] . " content"); ?></label>
+                                                            <textarea rows="5" name="content" class="form-control border-input" placeholder="Enter Your Content"><?php echo $get_category_var['content']; ?></textarea>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                    
+                                                <div class="text-center">
+                                                    <input type="hidden" name="slug" value="this-is-slug">
+                                                    <input type="hidden" name="parent_id" value="<?php echo $get_category_var['parent_id']; ?>">
+                                                    <button type="submit" class="btn btn-info btn-fill btn-wd">EDIT <?php echo strtoupper($detail_data_page[0]['title']); ?></button>
+                                                </div>
+                                                <div class="clearfix"></div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 <?php endif; ?>
             </div>
         </div>
